@@ -5,21 +5,21 @@
   </a>
 </div>
 
-# Webpack Extend JSON
-Webpack loader that enables you to extend JSON file.
+# Webpack SASS Import As Mixin
+Webpack loader that gives the ability to import files as a sass mixin
 
 #### Note: this loader is still under development & not ready to be used in production 
 
 ## Getting Started
 
-To begin, you'll need to install `webpack-extend-json`:
+To begin, you'll need to install `webpack-sass-import-as-mixin`:
 
 ```console
-npm install --save-dev webpack-extend-json
+npm install --save-dev webpack-sass-import-as-mixin
 ```
 
-Then add the loader to your `webpack` config for a specific file type. For example:
-
+Then add the loader to your `webpack` config for sass/scss file type. For example:
+**!Important:- Please make sure to put this loader as the last one**
 **webpack.config.js**
 
 ```js
@@ -27,46 +27,31 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.json/i,
-        loader: 'webpack-extend-json',
+        test: /\.scss/i,
+        loader: 'webpack-sass-import-as-mixin',
       },
     ],
   },
 };
 ```
-## Example 
-You need to have two keys in your JSON "Extend" key which is the file to the file you want to extend & "data" key which is data in the JSON file
+## Wrapping Your Import 
+To wrap your sass modules with a mixin you need to pass a query string option to your import as the following :-
 
-**Parent.json**
+**File.SCSS**
 ```js
-{
-  "config1": "value1",
-  "config2": "value2",
-  "config3": "value3",
-  "config4": "value4"
-}
+@import "some-module.scss?asMixin";
+@include some-module();
 ```
-**Child.json**
+
+By default the mixin name will be the same as the imported file name but if you needed to pass your own name this can be done with mixinName query param. Example:-
+
+**File.SCSS**
 ```js
-{
-  "extends": "./Parent.json", 
-  "data": {
-    "config3": "value3 - override",
-    "config4": "value4 - override",
-    "config5": "value5 - new value",
-  }
-}
+@import "some-module.scss?asMixin&mixinName=custom-mixin-name";
+@include custom-mixin-name();
 ```
-the loaded JSON will look like this
-```js
-{
-  "config1": "value1",
-  "config2": "value2",
-  "config3": "value3 - override",
-  "config4": "value4 - override",
-  "config5": "value5 - new value",
-}
-```
+
+
 ## Contributing
 
 Please take a moment to read our contributing guidelines if you haven't yet done so.
